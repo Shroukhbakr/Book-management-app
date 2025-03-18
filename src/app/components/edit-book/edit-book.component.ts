@@ -22,10 +22,10 @@ export class EditBookComponent implements OnInit {
 
   ngOnInit(): void {
     const bookId = this.route.snapshot.paramMap.get('id');
-    console.log('Book ID from route:', bookId); // طباعة قيمة id
+    console.log('Book ID from route:', bookId); 
   
     if (bookId) {
-      this.loadBook(parseInt(bookId)); // تأكدي من تحويله إلى رقم
+      this.loadBook(parseInt(bookId)); 
     } else {
       console.error('No book ID found in the route!');
     }
@@ -37,7 +37,7 @@ export class EditBookComponent implements OnInit {
         console.log('Fetched book:', response);
         setTimeout(() => {
           this.book = response;
-        }, 100); // تأخير بسيط ليسمح للـ Angular بالتحديث
+        }, 100); 
       },
       (error) => console.error('Error fetching book:', error)
     );
