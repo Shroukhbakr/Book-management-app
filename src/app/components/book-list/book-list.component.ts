@@ -1,24 +1,19 @@
-import { Component,ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { Router } from '@angular/router'
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book.model';
-import { NavigationEnd } from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-book-list',
-  imports: [CommonModule,RouterModule,],
+  imports: [CommonModule, RouterModule],
   providers: [BookService],
   templateUrl: './book-list.component.html',
   styleUrl: './book-list.component.css'
-
 })
 export class BookListComponent {
   @ViewChild('searchInput') searchInput!: ElementRef;
-  selectedBook: Book | null = null;
-  showEditForm = false;
   books: Book[] = [];
   filteredBooks: Book[] = [];
 
@@ -36,53 +31,42 @@ export class BookListComponent {
 
   fetchBooks() {
     this.bookService.getBooks().subscribe(
-      (response: any) => {
-        console.log(" Raw API Response:", response);
-  
-        if (Array.isArray(response) && response.length > 0 && typeof response[0] === 'object') {
-          const firstObject = response[0]; 
-          
-          this.books = Object.values(firstObject)
-            .filter((item): item is Book => 
-              item !== null && typeof item === 'object' && 
-              'id' in item && 'title' in item && 'author' in item && 'genre' in item
-            );
-  
-        } else {
-          this.books = [];
-        }
-  
+      (response: Book[]) => {
+        console.log("Fetched Books:", response);
+        this.books = response;
         this.filteredBooks = [...this.books];
-  
-        console.log(" Processed Books:", this.books);
       },
-      (error) => console.error(' Error fetching books:', error)
+      (error) => console.error('Error fetching books:', error)
     );
   }
+
   filterBooks() {
     const query = this.searchInput.nativeElement.value.toLowerCase();
     this.filteredBooks = this.books.filter(
       (book) =>
         book.title.toLowerCase().includes(query) ||
-        book.author.toLowerCase().includes(query)
+        (book.description && book.description.toLowerCase().includes(query)) // تأكد إن `description` موجودة
     );
   }
 
   addBook() {
     const newBook: Book = {
+      id: 0, // ID مؤقت، الـ API هيولده بعد الإضافة
       title: 'New Book',
-      author: 'Unknown',
-      genre: 'Fiction'
+      description: 'This is a new book description.',
+      excerpt: 'Short excerpt of the book.',
+      pageCount: 100,
+      publishDate: new Date().toISOString(),
     };
-  
+
     this.bookService.addBook(newBook).subscribe(() => {
-      this.fetchBooks(); 
+      this.fetchBooks(); // إعادة تحميل الكتب بعد الإضافة
     });
   }
 
   editBook(bookId: number) {
     this.router.navigate(['/edit-book', bookId]);
-  }  
+  }
 
   deleteBook(book: Book) {
     if (book.id !== undefined) {
@@ -94,8 +78,5 @@ export class BookListComponent {
     } else {
       console.error("Error: Book ID is undefined");
     }
-  }
-  toggleEditForm() {
-    this.showEditForm = !this.showEditForm;
   }
 }

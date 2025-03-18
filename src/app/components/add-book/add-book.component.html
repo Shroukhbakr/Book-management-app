@@ -1,21 +1,31 @@
 <div class="container mt-5 form-container">
     <h2>Add a New Book</h2>  
-    <form>
+    <form (submit)="onSubmit($event)">
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="title" placeholder="Enter book title" required>
+            <input type="text" class="form-control" id="title" [(ngModel)]="newBook.title" name="title" placeholder="Enter book title" required>
         </div>
-        
+
         <div class="mb-3">
-            <label for="author" class="form-label">Author</label>
-            <input type="text" class="form-control" id="author" placeholder="Enter author name" required>
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" [(ngModel)]="newBook.description" name="description" rows="3" placeholder="Enter book description"></textarea>
         </div>
-        
+
         <div class="mb-3">
-            <label for="genre" class="form-label">Genre</label>
-            <input type="text" class="form-control" id="genre" placeholder="Enter genre" required>
+            <label for="excerpt" class="form-label">Excerpt</label>
+            <textarea class="form-control" id="excerpt" [(ngModel)]="newBook.excerpt" name="excerpt" rows="2" placeholder="Short summary of the book"></textarea>
         </div>
-        
+
+        <div class="mb-3">
+            <label for="pageCount" class="form-label">Page Count</label>
+            <input type="number" class="form-control" id="pageCount" [(ngModel)]="newBook.pageCount" name="pageCount" placeholder="Enter number of pages" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="publishDate" class="form-label">Publish Date</label>
+            <input type="date" class="form-control" id="publishDate" [(ngModel)]="newBook.publishDate" name="publishDate" required>
+        </div>
+
         <button type="submit" class="btn btn-primary">Add Book</button>
     </form>
 </div>

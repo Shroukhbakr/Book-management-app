@@ -8,7 +8,7 @@ import { Book } from '../models/book.model';
   providedIn: 'root'
 })
 export class BookService {
-  private apiUrl = 'https://67d8cc1000348dd3e2a844b5.mockapi.io/Api/Apibook';
+  private apiUrl = 'https://fakerestapi.azurewebsites.net/api/v1/Books';
 
   constructor(private http: HttpClient) { }
 

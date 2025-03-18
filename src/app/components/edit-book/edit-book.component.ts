@@ -1,53 +1,65 @@
-import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book.model';
 
-
 @Component({
   standalone: true,
   selector: 'app-edit-book',
-  imports: [FormsModule,RouterModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './edit-book.component.html',
   styleUrl: './edit-book.component.css'
 })
 export class EditBookComponent implements OnInit {
-  book: Book = { id: 0, title: '', author: '', genre: '' }; 
+  book: Book | null = null;
+  errorMessage: string = '';
 
-  constructor(private route: ActivatedRoute, private bookService: BookService) {}
+  constructor(
+    private route: ActivatedRoute, 
+    private bookService: BookService,
+    private router: Router 
+  ) {}
 
   ngOnInit(): void {
     const bookId = this.route.snapshot.paramMap.get('id');
-    console.log('Book ID from route:', bookId); 
-  
+    
     if (bookId) {
       this.loadBook(parseInt(bookId)); 
     } else {
-      console.error('No book ID found in the route!');
+      this.errorMessage = 'No book ID found in the route!';
     }
   }
 
   loadBook(id: number) {
     this.bookService.getBookById(id).subscribe(
       (response) => {
-        console.log('Fetched book:', response);
-        setTimeout(() => {
-          this.book = response;
-        }, 100); 
+        this.book = response;
       },
-      (error) => console.error('Error fetching book:', error)
+      (error) => {
+        console.error('Error fetching book:', error);
+        this.errorMessage = 'Failed to fetch book details. Please try again later.';
+      }
     );
   }
+
   saveChanges() {
-    if (this.book.id) {
+    if (this.book && this.book.id) {
       this.bookService.updateBook(this.book.id, this.book).subscribe(
-        () => console.log('Book updated successfully!'),
-        (error) => console.error('Error updating book:', error)
+        () => {
+          console.log('Book updated successfully!');
+          this.router.navigate(['/']);
+        },
+        (error) => {
+          console.error('Error updating book:', error);
+          this.errorMessage = 'Failed to update book. Please check your input and try again.';
+        }
       );
     }
+  }
+
+  cancelEdit() {
+    this.router.navigate(['/']);
   }
 }
