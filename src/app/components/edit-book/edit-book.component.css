@@ -1,0 +1,20 @@
+.container-form{
+    border: 1px solid #000;
+    padding: 20px;
+    border-radius: 15px;
+    max-width: 500px;
+    margin: auto;
+}
+@media (max-width: 768px) {
+    .container-form {
+        max-width: 400px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container-form {
+        max-width: 300px;
+        padding: 10px;
+    }
+}

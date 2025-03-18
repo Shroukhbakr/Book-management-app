@@ -1,0 +1,15 @@
+<div class="container-form mt-5">
+    <h2>Edit Book</h2>
+    <form>
+      <label>Title</label>
+      <input type="text" [(ngModel)]="book.title" name="title" class="form-control">
+    
+      <label>Author</label>
+      <input type="text" [(ngModel)]="book.author" name="author" class="form-control">
+    
+      <label>Genre</label>
+      <input type="text" [(ngModel)]="book.genre" name="genre" class="form-control">
+    
+      <button type="button" class="btn btn-primary" (click)="saveChanges()">Save Changes</button>
+    </form>
+    
