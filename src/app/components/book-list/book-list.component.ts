@@ -51,7 +51,7 @@ export class BookListComponent {
 
   addBook() {
     const newBook: Book = {
-      id: 0, // ID مؤقت، الـ API هيولده بعد الإضافة
+      id: 0, 
       title: 'New Book',
       description: 'This is a new book description.',
       excerpt: 'Short excerpt of the book.',
@@ -60,7 +60,7 @@ export class BookListComponent {
     };
 
     this.bookService.addBook(newBook).subscribe(() => {
-      this.fetchBooks(); // إعادة تحميل الكتب بعد الإضافة
+      this.fetchBooks(); 
     });
   }
 
@@ -73,10 +73,16 @@ export class BookListComponent {
       this.bookService.deleteBook(book.id).subscribe(() => {
         this.books = this.books.filter((b) => b.id !== book.id);
         this.filteredBooks = [...this.books];
-        console.log('Deleted book:', book);
+
+        alert(`The book "${book.title}" Are you Sure to Delete This Item!`); 
+        console.log('Deleted book:', book); 
+      },
+      (error) => {
+        console.error("Error deleting book:", error);
+        alert("An error occurred while deleting the book. Please try again.");
       });
     } else {
       console.error("Error: Book ID is undefined");
     }
-  }
+}
 }

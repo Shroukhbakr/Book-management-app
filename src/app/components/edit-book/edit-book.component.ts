@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BookService } from '../../services/book.service';
 import { Book } from '../../models/book.model';
+import { response } from 'express';
 
 @Component({
   standalone: true,
@@ -47,8 +48,8 @@ export class EditBookComponent implements OnInit {
   saveChanges() {
     if (this.book && this.book.id) {
       this.bookService.updateBook(this.book.id, this.book).subscribe(
-        () => {
-          console.log('Book updated successfully!');
+        (response) => {
+          console.log('Book updated successfully!',response);
           this.router.navigate(['/']);
         },
         (error) => {

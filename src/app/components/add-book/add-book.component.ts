@@ -27,8 +27,8 @@ export class AddBookComponent {
   onSubmit(event: Event) {
     event.preventDefault(); 
 
-    this.bookService.addBook(this.newBook).subscribe(() => {
-      console.log('Book added successfully!');
+    this.bookService.addBook(this.newBook).subscribe((response: any) => {
+      console.log('Book added successfully!',response);
       this.router.navigate(['/']); 
     }, (error) => {
       console.error('Error adding book:', error);
