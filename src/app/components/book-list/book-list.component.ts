@@ -45,7 +45,7 @@ export class BookListComponent {
     this.filteredBooks = this.books.filter(
       (book) =>
         book.title.toLowerCase().includes(query) ||
-        (book.description && book.description.toLowerCase().includes(query)) // تأكد إن `description` موجودة
+        (book.description && book.description.toLowerCase().includes(query)) 
     );
   }
 
