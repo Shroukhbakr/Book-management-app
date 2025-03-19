@@ -67,8 +67,7 @@ export class BookListComponent {
   editBook(bookId: number) {
     this.router.navigate(['/edit-book', bookId]);
   }
-      //*Delete button*//
-      
+  
   deleteBook(book: Book) {
     if (book.id !== undefined) {
       this.bookService.deleteBook(book.id).subscribe(() => {

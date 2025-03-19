@@ -27,11 +27,18 @@ export class AddBookComponent {
   onSubmit(event: Event) {
     event.preventDefault(); 
 
-    this.bookService.addBook(this.newBook).subscribe((response: any) => {
-      console.log('Book added successfully!',response);
-      this.router.navigate(['/']); 
-    }, (error) => {
-      console.error('Error adding book:', error);
-    });
-  }
+    this.bookService.addBook(this.newBook).subscribe(
+      (response: any) => {
+        console.log('Book added successfully!', response);
+
+        alert(`The book "${this.newBook.title}" has been added successfully!`); // عرض رسالة تأكيد
+        
+        this.router.navigate(['/']); 
+      }, 
+      (error) => {
+        console.error('Error adding book:', error);
+        alert("An error occurred while adding the book. Please try again.");
+      }
+    );
+}
 }

@@ -46,20 +46,26 @@ export class EditBookComponent implements OnInit {
   }
 
   saveChanges() {
-    if (this.book && this.book.id) {
+    if (this.book && this.book.id) { 
       this.bookService.updateBook(this.book.id, this.book).subscribe(
         (response) => {
-          console.log('Book updated successfully!',response);
+          console.log('Book updated successfully!', response);
+
+          alert(`The book "${this.book!.title}" has been updated successfully!`);
+
           this.router.navigate(['/']);
         },
         (error) => {
           console.error('Error updating book:', error);
-          this.errorMessage = 'Failed to update book. Please check your input and try again.';
+          
+          alert("Failed to update book. Please check your input and try again."); 
         }
       );
+    } else {
+      console.error("Error: Book object is null or missing an ID.");
+      alert("Error: Cannot update the book because it is missing or not loaded properly.");
     }
-  }
-
+}
   cancelEdit() {
     this.router.navigate(['/']);
   }
