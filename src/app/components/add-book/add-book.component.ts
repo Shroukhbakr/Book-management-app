@@ -18,7 +18,7 @@ export class AddBookComponent {
     title: '',
     description: '',
     excerpt: '',
-    pageCount: 0,
+    pageCount: 1,  
     publishDate: new Date().toISOString().split('T')[0]
   };
 
@@ -30,9 +30,7 @@ export class AddBookComponent {
     this.bookService.addBook(this.newBook).subscribe(
       (response: any) => {
         console.log('Book added successfully!', response);
-
-        alert(`The book "${this.newBook.title}" has been added successfully!`); // عرض رسالة تأكيد
-        
+        alert(`The book "${this.newBook.title}" has been added successfully!`);
         this.router.navigate(['/']); 
       }, 
       (error) => {
@@ -40,5 +38,7 @@ export class AddBookComponent {
         alert("An error occurred while adding the book. Please try again.");
       }
     );
+  }
 }
-}
+
+

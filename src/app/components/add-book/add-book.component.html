@@ -3,29 +3,36 @@
     <form (submit)="onSubmit($event)">
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="title" [(ngModel)]="newBook.title" name="title" placeholder="Enter book title" required>
+            <input type="text" class="form-control" id="title" [(ngModel)]="newBook.title" name="title" #titleRef="ngModel" required>
+            <div *ngIf="titleRef.invalid && titleRef.touched" class="text-danger">Title is required</div>
         </div>
 
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" [(ngModel)]="newBook.description" name="description" rows="3" placeholder="Enter book description"></textarea>
+            <textarea class="form-control" id="description" [(ngModel)]="newBook.description" name="description" #descRef="ngModel" required></textarea>
+            <div *ngIf="descRef.invalid && descRef.touched" class="text-danger">Description is required</div>
         </div>
 
         <div class="mb-3">
             <label for="excerpt" class="form-label">Excerpt</label>
-            <textarea class="form-control" id="excerpt" [(ngModel)]="newBook.excerpt" name="excerpt" rows="2" placeholder="Short summary of the book"></textarea>
+            <textarea class="form-control" id="excerpt" [(ngModel)]="newBook.excerpt" name="excerpt" #excerptRef="ngModel" required></textarea>
+            <div *ngIf="excerptRef.invalid && excerptRef.touched" class="text-danger">Excerpt is required</div>
         </div>
 
         <div class="mb-3">
             <label for="pageCount" class="form-label">Page Count</label>
-            <input type="number" class="form-control" id="pageCount" [(ngModel)]="newBook.pageCount" name="pageCount" placeholder="Enter number of pages" required>
+            <input type="number" class="form-control" id="pageCount" [(ngModel)]="newBook.pageCount" name="pageCount" #pageRef="ngModel" required min="1">
+            <div *ngIf="pageRef.invalid && pageRef.touched" class="text-danger">Page count must be greater than 0</div>
         </div>
 
         <div class="mb-3">
             <label for="publishDate" class="form-label">Publish Date</label>
-            <input type="date" class="form-control" id="publishDate" [(ngModel)]="newBook.publishDate" name="publishDate" required>
+            <input type="date" class="form-control" id="publishDate" [(ngModel)]="newBook.publishDate" name="publishDate" #dateRef="ngModel" required>
+            <div *ngIf="dateRef.invalid && dateRef.touched" class="text-danger">Publish date is required</div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Add Book</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!titleRef.valid || !descRef.valid || !excerptRef.valid || !pageRef.valid || !dateRef.valid">
+            Add Book
+        </button>
     </form>
 </div>
